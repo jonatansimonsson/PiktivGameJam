@@ -6,12 +6,6 @@ TILE_SIZE = 20
 black = (0, 0, 0)
 
 
-def draw_map(level_data, screen):
-    for row, line in enumerate(level_data):
-        for col, char in enumerate(line):
-            if char == '1':
-                pygame.draw.rect(screen, black, (col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE))
-
 
 def load_collisions(level_data, groups):
     for row, line in enumerate(level_data):

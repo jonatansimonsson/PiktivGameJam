@@ -1,7 +1,9 @@
 import pygame
 import sys
 
-from LevelHandler import LevelHandler, draw_map, load_collisions
+from pygame.sprite import spritecollide, collide_rect
+
+from LevelHandler import LevelHandler, load_collisions
 from Sprite import Sprite
 from Player import Player
 
@@ -43,32 +45,47 @@ while True:
             pygame.quit()
             sys.exit()
 
-    new_player2_x, new_player2_y = player2.rect.x, player2.rect.y
-
     # Get the state of all keys
     keys = pygame.key.get_pressed()
 
     # Update cube positions based on key presses
     if keys[pygame.K_LEFT]:
         player1.rect.x -= cube_speed
-        new_player2_x -= cube_speed
+        player2.rect.x -= cube_speed
+        for wall in walls:
+            if collide_rect(player2, wall):
+                player2.rect.left = wall.rect.right
+            if collide_rect(player1, wall):
+                player1.rect.left = wall.rect.right
+
     if keys[pygame.K_RIGHT]:
         player1.rect.x += cube_speed
-        new_player2_x += cube_speed
+        player2.rect.x += cube_speed
+        for wall in walls:
+            if collide_rect(player2, wall):
+                player2.rect.right = wall.rect.left
+            if collide_rect(player1, wall):
+                player1.rect.right = wall.rect.left
+
     if keys[pygame.K_UP]:
         player1.rect.y -= cube_speed
-        new_player2_y -= cube_speed
+        player2.rect.y -= cube_speed
+        for wall in walls:
+            if collide_rect(player2, wall):
+                player2.rect.top = wall.rect.bottom
+            if collide_rect(player1, wall):
+                player1.rect.top = wall.rect.bottom
+
     if keys[pygame.K_DOWN]:
         player1.rect.y += cube_speed
-        new_player2_y += cube_speed
+        player2.rect.y += cube_speed
+        for wall in walls:
+            if collide_rect(player2, wall):
+                player2.rect.bottom = wall.rect.top
+            if collide_rect(player1, wall):
+                player1.rect.bottom = wall.rect.top
 
-    # Check for collisions
-    if player2.rect.collidelist(walls.sprites()) != -1:
-        new_player2_x, new_player2_y = player2.rect.x, player2.rect.y
-
-    # Update pos
-    player2.rect.x = new_player2_x
-    player2.rect.y = new_player2_y
+    all_sprites.update()
 
     # Clamp players to screen
     player1.rect.clamp_ip(screen.get_rect())
@@ -76,9 +93,6 @@ while True:
 
     # Fill the screen with white
     screen.fill(white)
-
-    # Draw map
-    draw_map(level_data, screen)
 
     # Draw the cubes
     all_sprites.update()
