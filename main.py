@@ -58,6 +58,13 @@ while True:
             if collide_rect(player1, wall):
                 player1.rect.left = wall.rect.right
 
+        if collide_rect(player1, player2):
+            if player1.rect.x > player2.rect.x:
+                player1.rect.left = player2.rect.right
+            else:
+                player2.rect.left = player1.rect.right
+
+
     if keys[pygame.K_RIGHT]:
         player1.rect.x += cube_speed
         player2.rect.x += cube_speed
@@ -66,6 +73,12 @@ while True:
                 player2.rect.right = wall.rect.left
             if collide_rect(player1, wall):
                 player1.rect.right = wall.rect.left
+
+        if collide_rect(player1, player2):
+            if player1.rect.x < player2.rect.x:
+                player1.rect.right = player2.rect.left
+            else:
+                player2.rect.right = player1.rect.left
 
     if keys[pygame.K_UP]:
         player1.rect.y -= cube_speed
@@ -76,6 +89,12 @@ while True:
             if collide_rect(player1, wall):
                 player1.rect.top = wall.rect.bottom
 
+        if collide_rect(player1, player2):
+            if player1.rect.y > player2.rect.y:
+                player1.rect.top = player2.rect.bottom
+            else:
+                player2.rect.top = player1.rect.bottom
+
     if keys[pygame.K_DOWN]:
         player1.rect.y += cube_speed
         player2.rect.y += cube_speed
@@ -84,6 +103,12 @@ while True:
                 player2.rect.bottom = wall.rect.top
             if collide_rect(player1, wall):
                 player1.rect.bottom = wall.rect.top
+
+        if collide_rect(player1, player2):
+            if player1.rect.y < player2.rect.y:
+                player1.rect.bottom = player2.rect.top
+            else:
+                player2.rect.bottom = player1.rect.top
 
     all_sprites.update()
 
