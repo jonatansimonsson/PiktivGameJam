@@ -33,7 +33,7 @@ def load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents
                 g.rect.y = TILE_SIZE * row
                 g.add(all_sprites, flower_goal)
             elif char == '4':
-                v = Sprite(gray, TILE_SIZE, TILE_SIZE, None)
+                v = Sprite(gray, TILE_SIZE, TILE_SIZE, "Sprites/vent.png")
                 v.rect.x, v.rect.y = TILE_SIZE * col, TILE_SIZE * row
                 v.add(all_sprites, vents, walls)
             elif char == '5':
@@ -45,7 +45,7 @@ def load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents
                 w.rect.x, w.rect.y = TILE_SIZE * col, TILE_SIZE * row
                 w.add(all_sprites, locked_walls, walls)
             elif char == '7':
-                w = Sprite(maroon, TILE_SIZE, TILE_SIZE, None)
+                w = Sprite(maroon, TILE_SIZE, TILE_SIZE, "Sprites/breakable_wall.png")
                 w.rect.x, w.rect.y = TILE_SIZE * col, TILE_SIZE * row
                 w.add(all_sprites, breaking_walls, walls)
             elif char == '8':
