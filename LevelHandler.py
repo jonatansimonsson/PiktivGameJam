@@ -11,7 +11,7 @@ yellow = (255, 255, 0)
 maroon = (128, 0, 0)
 
 
-def load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents, keys, locked_walls, breaking_walls):
+def load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents, keys, locked_walls, breaking_walls, portals):
     flower_start, bee_start = [0, 0], [0, 0]
     for row, line in enumerate(level_data):
         for col, char in enumerate(line.strip()):
@@ -48,6 +48,10 @@ def load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents
                 w = Sprite(maroon, TILE_SIZE, TILE_SIZE)
                 w.rect.x, w.rect.y = TILE_SIZE * col, TILE_SIZE * row
                 w.add(all_sprites, breaking_walls, walls)
+            elif char == '8':
+                t = Sprite(maroon, TILE_SIZE, TILE_SIZE)
+                t.rect.x, t.rect.y = TILE_SIZE * col, TILE_SIZE * row
+                t.add(all_sprites, portals)
             elif char == 'A':
                 bee_start = [col * TILE_SIZE, row * TILE_SIZE]
             elif char == 'B':
