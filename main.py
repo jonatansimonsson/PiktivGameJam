@@ -146,9 +146,9 @@ while True:
                 if collide_rect(player1, wall):
                     player1.rect.top = wall.rect.bottom
 
-                    for w in breaking_walls:
-                        if collide_rect(player2, w):
-                            w.kill()
+                for w in breaking_walls:
+                    if collide_rect(player2, w):
+                        w.kill()
 
                 if len(vents) > 1:
                     if collide_rect(player1, vents.sprites()[0]):
@@ -173,9 +173,9 @@ while True:
                 if collide_rect(player1, wall):
                     player1.rect.bottom = wall.rect.top
 
-                    for w in breaking_walls:
-                        if collide_rect(player2, w):
-                            w.kill()
+                for w in breaking_walls:
+                    if collide_rect(player2, w):
+                        w.kill()
 
                 if len(vents) > 1:
                     if collide_rect(player1, vents.sprites()[0]):
@@ -190,8 +190,6 @@ while True:
                     player1.rect.bottom = player2.rect.top
                 else:
                     player2.rect.bottom = player1.rect.top
-
-
 
         if groupcollide(players, keys_group, False, True):
             for s in locked_walls:
