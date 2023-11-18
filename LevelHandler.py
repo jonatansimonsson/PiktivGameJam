@@ -12,7 +12,7 @@ gray = (128, 128, 128)
 yellow = (255, 255, 0)
 maroon = (128, 0, 0)
 
-wall_list = ["Sprites/wall1", "Sprites/wall2", "Sprites/wall3"]
+wall_list = ["Sprites/wall1.png", "Sprites/wall2.png", "Sprites/wall3.png"]
 
 
 def load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents, keys, locked_walls, breaking_walls, portals):
