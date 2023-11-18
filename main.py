@@ -158,6 +158,7 @@ while True:
     if check_level_complete():
         text_surface = font.render('Level Complete', False, text_color)
         screen.blit(text_surface, screen.get_rect().center)
+        pygame.display.flip()
         current_level, level_data, player1, player2 = go_next_level(current_level)
 
     # Update the display
