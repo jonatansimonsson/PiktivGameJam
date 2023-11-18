@@ -14,6 +14,8 @@ pygame.init()
 width, height = 800, 600
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Moving Cubes")
+font = pygame.font.SysFont("Comic Sans",100)
+
 
 # Set up colors
 white = (255, 255, 255)
@@ -26,13 +28,14 @@ cube_speed = 5
 
 all_sprites = pygame.sprite.Group()
 walls = pygame.sprite.Group()
-goals = pygame.sprite.Group()
+bee_goal = pygame.sprite.Group()
+flower_goal = pygame.sprite.Group()
 
 # Load level info and collisions
 level_handler = LevelHandler()
 level_handler.load_levels()
 level_data = level_handler.load_map(level_handler.levels[0])
-bee_spawn, flower_spawn = load_collisions(level_data, walls, all_sprites, goals)
+bee_spawn, flower_spawn = load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal)
 
 # Create players
 player1 = Player(red, 20, 20, bee_spawn)
@@ -122,6 +125,9 @@ while True:
     all_sprites.update()
     all_sprites.draw(screen)
 
+    if not (player1.rect.collidelist(bee_goal.sprites()) and player2.rect.collidelist(flower_goal.sprites())):
+        text_surface = font.render('Level Complete', False, (0, 0, 0))
+        screen.blit(text_surface, screen.get_rect().center)
     # Update the display
     pygame.display.flip()
 
