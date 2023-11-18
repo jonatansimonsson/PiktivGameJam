@@ -8,7 +8,7 @@ red_goal = (255, 153, 153)
 blue_goal = (153, 204, 255)
 
 
-def load_collisions(level_data, walls, all_sprites, goals):
+def load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal):
     flower_start, bee_start = [0, 0], [0, 0]
     for row, line in enumerate(level_data):
         for col, char in enumerate(line.strip()):
@@ -23,12 +23,12 @@ def load_collisions(level_data, walls, all_sprites, goals):
                 g = Sprite(red_goal, TILE_SIZE, TILE_SIZE)
                 g.rect.x = TILE_SIZE * col
                 g.rect.y = TILE_SIZE * row
-                g.add(all_sprites, goals)
+                g.add(all_sprites, bee_goal)
             elif char == '3':
                 g = Sprite(blue_goal, TILE_SIZE, TILE_SIZE)
                 g.rect.x = TILE_SIZE * col
                 g.rect.y = TILE_SIZE * row
-                g.add(all_sprites, goals)
+                g.add(all_sprites, flower_goal)
             elif char == 'A':
                 bee_start = [col * TILE_SIZE, row * TILE_SIZE]
             elif char == 'B':
