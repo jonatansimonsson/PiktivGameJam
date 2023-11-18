@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-from pygame.sprite import spritecollide, collide_rect
+from pygame.sprite import spritecollide, collide_rect, groupcollide
 
 from LevelHandler import LevelHandler, load_collisions
 from Sprite import Sprite
@@ -31,12 +31,17 @@ all_sprites = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 bee_goal = pygame.sprite.Group()
 flower_goal = pygame.sprite.Group()
+vents = pygame.sprite.Group()
+keys_group = pygame.sprite.Group()
+locked_walls = pygame.sprite.Group()
+players = pygame.sprite.Group()
+breaking_walls = pygame.sprite.Group()
 
 # Load level info and collisions
 level_handler = LevelHandler()
 level_handler.load_levels()
 level_data = level_handler.load_map(level_handler.levels[0])
-bee_spawn, flower_spawn = load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal)
+bee_spawn, flower_spawn = load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents, keys_group, locked_walls, breaking_walls)
 current_level = 0
 background_surface = pygame.image.load(level_handler.level_background_path(current_level))
 background_rect = background_surface.get_rect(topleft=(0, 0))
@@ -45,8 +50,8 @@ screen.blit(background_surface, background_rect)
 # Create players
 player1 = Player(red, tile_size, tile_size, bee_spawn)
 player2 = Player(blue, tile_size, tile_size, flower_spawn)
-player1.add(all_sprites)
-player2.add(all_sprites)
+player1.add(all_sprites, players)
+player2.add(all_sprites, players)
 
 
 def check_level_complete():
@@ -64,11 +69,11 @@ def go_next_level(current):
     if len(level_handler.levels) >= current:
         reload_sprites()
         level_data = level_handler.load_map(level_handler.levels[current-1])
-        bee_spawn, flower_spawn = load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal)
+        bee_spawn, flower_spawn = load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents, keys_group, locked_walls, breaking_walls)
         player1 = Player(red, tile_size, tile_size, bee_spawn)
         player2 = Player(blue, tile_size, tile_size, flower_spawn)
-        player1.add(all_sprites)
-        player2.add(all_sprites)
+        player1.add(all_sprites, players)
+        player2.add(all_sprites, players)
         return current, level_data, player1, player2, bg_surface, bg_rect
     else:
         pass
@@ -100,6 +105,10 @@ while True:
                 if collide_rect(player1, wall):
                     player1.rect.left = wall.rect.right
 
+                for w in breaking_walls:
+                    if collide_rect(player2, w):
+                        w.kill()
+
             if collide_rect(player1, player2):
                 if player1.rect.x > player2.rect.x:
                     player1.rect.left = player2.rect.right
@@ -114,6 +123,10 @@ while True:
                     player2.rect.right = wall.rect.left
                 if collide_rect(player1, wall):
                     player1.rect.right = wall.rect.left
+
+                for w in breaking_walls:
+                    if collide_rect(player2, w):
+                        w.kill()
 
             if collide_rect(player1, player2):
                 if player1.rect.x < player2.rect.x:
@@ -130,6 +143,18 @@ while True:
                 if collide_rect(player1, wall):
                     player1.rect.top = wall.rect.bottom
 
+                    for w in breaking_walls:
+                        if collide_rect(player2, w):
+                            w.kill()
+
+                if len(vents) > 1:
+                    if collide_rect(player1, vents.sprites()[0]):
+                        player1.rect.bottom = vents.sprites()[1].rect.top
+                        player1.rect.right = vents.sprites()[1].rect.right
+                    elif collide_rect(player1, vents.sprites()[1]):
+                        player1.rect.top = vents.sprites()[0].rect.bottom
+                        player1.rect.right = vents.sprites()[0].rect.right
+
             if collide_rect(player1, player2):
                 if player1.rect.y > player2.rect.y:
                     player1.rect.top = player2.rect.bottom
@@ -145,18 +170,35 @@ while True:
                 if collide_rect(player1, wall):
                     player1.rect.bottom = wall.rect.top
 
+                    for w in breaking_walls:
+                        if collide_rect(player2, w):
+                            w.kill()
+
+                if len(vents) > 1:
+                    if collide_rect(player1, vents.sprites()[0]):
+                        player1.rect.bottom = vents.sprites()[1].rect.top
+                        player1.rect.right = vents.sprites()[1].rect.bottom
+                    elif collide_rect(player1, vents.sprites()[1]):
+                        player1.rect.top = vents.sprites()[0].rect.bottom
+                        player1.rect.right = vents.sprites()[0].rect.right
+
             if collide_rect(player1, player2):
                 if player1.rect.y < player2.rect.y:
                     player1.rect.bottom = player2.rect.top
                 else:
                     player2.rect.bottom = player1.rect.top
 
+
+
+        if groupcollide(players, keys_group, False, True):
+            for s in locked_walls:
+                s.kill()
+
         # Clamp players to screen
         player1.rect.clamp_ip(screen.get_rect())
         player2.rect.clamp_ip(screen.get_rect())
 
-        # Fill the screen with white
-        #screen.fill(white)
+        # Fill the screen with background
         screen.blit(background_surface, background_rect)
 
         # Draw the cubes
