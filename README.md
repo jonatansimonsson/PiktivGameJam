@@ -14,6 +14,8 @@ Bee art: Lexatschison: https://opengameart.org/content/bee-enemy
 
 Key art: Wolf_Sleuth: https://opengameart.org/content/key-sprite
 
+Background art: letsenhance: https://letsenhance.io/image-generation/
+
 Everything else: Felix Wallquist, Jonatan Simonsson
 
 
