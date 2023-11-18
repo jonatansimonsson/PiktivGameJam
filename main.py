@@ -53,8 +53,8 @@ music.set_volume(0.1)
 music.play(loops=-1)
 
 # Create players
-player1 = Player(red, tile_size, tile_size, bee_spawn)
-player2 = Player(blue, tile_size, tile_size, flower_spawn)
+player1 = Player(red, tile_size, tile_size, bee_spawn, "Sprites/bee.png")
+player2 = Player(blue, tile_size, tile_size, flower_spawn, "Sprites/flower.png")
 player1.add(all_sprites, players)
 player2.add(all_sprites, players)
 
@@ -75,8 +75,8 @@ def go_next_level(current):
         reload_sprites()
         level_data = level_handler.load_map(level_handler.levels[current-1])
         bee_spawn, flower_spawn = load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents, keys_group, locked_walls, breaking_walls, portals)
-        player1 = Player(red, tile_size, tile_size, bee_spawn)
-        player2 = Player(blue, tile_size, tile_size, flower_spawn)
+        player1 = Player(red, tile_size, tile_size, bee_spawn, "Sprites/bee.png")
+        player2 = Player(blue, tile_size, tile_size, flower_spawn, "Sprites/flower.png")
         player1.add(all_sprites, players)
         player2.add(all_sprites, players)
         return current, level_data, player1, player2, bg_surface, bg_rect
