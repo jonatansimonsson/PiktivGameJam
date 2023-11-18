@@ -2,11 +2,14 @@ import pygame
 
 
 class Sprite(pygame.sprite.Sprite):
-    def __init__(self, color, width, height):
+    def __init__(self, color, width, height, sprite_path):
         super().__init__()
 
         self.image = pygame.Surface([width, height])
-        self.image.fill(color)
+        if sprite_path is not None:
+            self.image = pygame.image.load(sprite_path)
+        else:
+            self.image.fill(color)
         self.rect = self.image.get_rect()
 
     def move_right(self, pixels):
