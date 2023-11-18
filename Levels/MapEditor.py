@@ -5,7 +5,7 @@ import sys
 pygame.init()
 
 # Set up display
-width, height = 800, 600
+width, height = 960, 720
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Tile Map Editor")
 
@@ -14,7 +14,7 @@ white = (0, 0, 0)
 black = (255, 255, 255)
 
 # Define tile size and map
-tile_size = 20
+tile_size = 24
 rows, cols = height // tile_size, width // tile_size
 tile_map = [[0] * cols for _ in range(rows)]
 
@@ -65,7 +65,7 @@ while True:
 
     # Save tile map to a text file
     if pygame.key.get_pressed()[pygame.K_s]:  # Press 's' key to save
-        with open("Level2", "w") as file:
+        with open("Level4", "w") as file:
             for row in tile_map:
                 file.write("".join(map(str, row)) + "\n")
-        print("Tile map saved to Level2")
+        print("Tile map saved to Level4")
