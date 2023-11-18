@@ -46,6 +46,9 @@ current_level = 0
 background_surface = pygame.image.load(level_handler.level_background_path(current_level))
 background_rect = background_surface.get_rect(topleft=(0, 0))
 screen.blit(background_surface, background_rect)
+music = pygame.mixer.Sound(level_handler.level_music_path(current_level))
+music.set_volume(0.1)
+music.play(loops=-1)
 
 # Create players
 player1 = Player(red, tile_size, tile_size, bee_spawn)
@@ -209,6 +212,10 @@ while True:
             text_surface = font.render('Level Complete', False, text_color)
             screen.blit(text_surface, screen.get_rect().center)
             pygame.display.flip()
+            music.stop()
+            music = pygame.mixer.Sound(level_handler.level_music_path(current_level+1))
+            music.set_volume(0.1)
+            music.play(loops=-1)
             current_level, level_data, player1, player2, background_surface, background_rect = go_next_level(current_level)
 
     else:
@@ -216,6 +223,10 @@ while True:
         screen.blit(text_surface, screen.get_rect(center=(500, 500)))
         if keys[pygame.K_SPACE]:
             current_level += 1
+            music.stop()
+            music = pygame.mixer.Sound(level_handler.level_music_path(current_level))
+            music.set_volume(0.1)
+            music.play(loops=-1)
             background_surface = pygame.image.load(level_handler.level_background_path(current_level))
             background_rect = background_surface.get_rect(topleft=(0, 0))
 
