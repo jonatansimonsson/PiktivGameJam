@@ -66,6 +66,9 @@ class LevelHandler:
         self.levels.append(level2_path)
         level3_path = "Levels/Level3"
         self.levels.append(level3_path)
+        level4_path = "Levels/Level4"
+        self.levels.append(level4_path)
+
 
     def level_background_path(self, level):
         return Utils.background_paths[level]
