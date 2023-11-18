@@ -26,17 +26,19 @@ cube_speed = 5
 
 all_sprites = pygame.sprite.Group()
 walls = pygame.sprite.Group()
+goals = pygame.sprite.Group()
 
-player1 = Player(red, 20, 20, [0, 0])
-player2 = Player(blue, 20, 20, [300, 300])
-player1.add(all_sprites)
-player2.add(all_sprites)
-
+# Load level info and collisions
 level_handler = LevelHandler()
 level_handler.load_levels()
 level_data = level_handler.load_map(level_handler.levels[0])
+bee_spawn, flower_spawn = load_collisions(level_data, walls, all_sprites, goals)
 
-load_collisions(level_data, [all_sprites, walls])
+# Create players
+player1 = Player(red, 20, 20, bee_spawn)
+player2 = Player(blue, 20, 20, flower_spawn)
+player1.add(all_sprites)
+player2.add(all_sprites)
 
 # Main game loop
 while True:
@@ -63,7 +65,6 @@ while True:
                 player1.rect.left = player2.rect.right
             else:
                 player2.rect.left = player1.rect.right
-
 
     if keys[pygame.K_RIGHT]:
         player1.rect.x += cube_speed
@@ -109,8 +110,6 @@ while True:
                 player1.rect.bottom = player2.rect.top
             else:
                 player2.rect.bottom = player1.rect.top
-
-    all_sprites.update()
 
     # Clamp players to screen
     player1.rect.clamp_ip(screen.get_rect())
