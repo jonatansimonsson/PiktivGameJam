@@ -218,9 +218,8 @@ while True:
         all_sprites.draw(screen)
 
         if check_level_complete():
-            text_surface = font.render('Level Complete', False, text_color)
-            screen.blit(text_surface, screen.get_rect().center)
-            pygame.display.flip()
+            if current_level == 4:
+                current_level = 0
             music.stop()
             music = pygame.mixer.Sound(level_handler.level_music_path(current_level+1))
             music.set_volume(0.1)
