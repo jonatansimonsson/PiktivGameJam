@@ -37,12 +37,41 @@ level_handler = LevelHandler()
 level_handler.load_levels()
 level_data = level_handler.load_map(level_handler.levels[0])
 bee_spawn, flower_spawn = load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal)
+current_level = 0
 
 # Create players
 player1 = Player(red, tile_size, tile_size, bee_spawn)
 player2 = Player(blue, tile_size, tile_size, flower_spawn)
 player1.add(all_sprites)
 player2.add(all_sprites)
+
+
+def check_level_complete():
+    if not player1.rect.collidelist(bee_goal.sprites()) and not player2.rect.collidelist(flower_goal.sprites()):
+        return True
+    else:
+        return False
+
+
+def go_next_level(current):
+    current += 1
+    if len(level_handler.levels) >= current:
+        reload_sprites()
+        level_data = level_handler.load_map(level_handler.levels[current])
+        bee_spawn, flower_spawn = load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal)
+        player1 = Player(red, tile_size, tile_size, bee_spawn)
+        player2 = Player(blue, tile_size, tile_size, flower_spawn)
+        player1.add(all_sprites)
+        player2.add(all_sprites)
+        return current, level_data, player1, player2
+    else:
+        pass
+
+
+def reload_sprites():
+    for sprite in all_sprites:
+        sprite.kill()
+
 
 # Main game loop
 while True:
@@ -126,9 +155,11 @@ while True:
     all_sprites.update()
     all_sprites.draw(screen)
 
-    if not player1.rect.collidelist(bee_goal.sprites()) and not player2.rect.collidelist(flower_goal.sprites()):
+    if check_level_complete():
         text_surface = font.render('Level Complete', False, text_color)
         screen.blit(text_surface, screen.get_rect().center)
+        current_level, level_data, player1, player2 = go_next_level(current_level)
+
     # Update the display
     pygame.display.flip()
 

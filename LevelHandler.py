@@ -43,6 +43,8 @@ class LevelHandler:
     def load_levels(self):
         level1_path = "Levels/Level1"
         self.levels.append(level1_path)
+        level2_path = "Levels/Level2"
+        self.levels.append(level2_path)
 
     @staticmethod
     def load_map(path):
