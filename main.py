@@ -1,10 +1,9 @@
 import pygame
 import sys
 
-from pygame.sprite import spritecollide, collide_rect, groupcollide
+from pygame.sprite import collide_rect, groupcollide
 
 from LevelHandler import LevelHandler, load_collisions
-from Sprite import Sprite
 from Player import Player
 
 # Initialize Pygame
@@ -15,6 +14,7 @@ width, height = 960, 720
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Moving Cubes")
 font = pygame.font.SysFont("Comic Sans", 100)
+small_font = pygame.font.SysFont("Comic Sans", 50, bold=True)
 
 
 # Set up colors
@@ -228,8 +228,14 @@ while True:
             current_level, level_data, player1, player2, background_surface, background_rect = go_next_level(current_level)
 
     else:
-        text_surface = font.render('Press space to play', False, text_color)
+        text_surface = small_font.render('Bee is smol, can fit into small places', False, red)
+        screen.blit(text_surface, screen.get_rect(center=(500, 400)))
+        text_surface = small_font.render('Flower is strong, try to break things', False, red)
+        screen.blit(text_surface, screen.get_rect(center=(500, 450)))
+        text_surface = small_font.render('Cooperate to reach symbiosis', False, red)
         screen.blit(text_surface, screen.get_rect(center=(500, 500)))
+        text_surface = font.render('Press space to play', False, text_color)
+        screen.blit(text_surface, screen.get_rect(center=(500, 700)))
         if keys[pygame.K_SPACE]:
             current_level += 1
             music.stop()
