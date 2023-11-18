@@ -15,6 +15,7 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Moving Cubes")
 font = pygame.font.SysFont("Comic Sans", 100)
 small_font = pygame.font.SysFont("Comic Sans", 50, bold=True)
+volume = 0.5
 
 
 # Set up colors
@@ -49,7 +50,7 @@ background_surface = pygame.image.load(level_handler.level_background_path(curre
 background_rect = background_surface.get_rect(topleft=(0, 0))
 screen.blit(background_surface, background_rect)
 music = pygame.mixer.Sound(level_handler.level_music_path(current_level))
-music.set_volume(0.1)
+music.set_volume(volume)
 music.play(loops=-1)
 
 # Create players
@@ -112,6 +113,9 @@ while True:
 
                 for w in breaking_walls:
                     if collide_rect(player2, w):
+                        sound = pygame.mixer.Sound('Sounds/WallBreak.wav')
+                        sound.set_volume(volume)
+                        sound.play()
                         w.kill()
 
             if collide_rect(player1, player2):
@@ -131,6 +135,9 @@ while True:
 
                 for w in breaking_walls:
                     if collide_rect(player2, w):
+                        sound = pygame.mixer.Sound('Sounds/WallBreak.wav')
+                        sound.set_volume(volume)
+                        sound.play()
                         w.kill()
 
             if collide_rect(player1, player2):
@@ -150,13 +157,22 @@ while True:
 
                 for w in breaking_walls:
                     if collide_rect(player2, w):
+                        sound = pygame.mixer.Sound('Sounds/WallBreak.wav')
+                        sound.set_volume(volume)
+                        sound.play()
                         w.kill()
 
                 if len(vents) > 1:
                     if collide_rect(player1, vents.sprites()[0]):
+                        sound = pygame.mixer.Sound('Sounds/Vent.wav')
+                        sound.set_volume(volume)
+                        sound.play()
                         player1.rect.bottom = vents.sprites()[1].rect.top
                         player1.rect.right = vents.sprites()[1].rect.right
                     elif collide_rect(player1, vents.sprites()[1]):
+                        sound = pygame.mixer.Sound('Sounds/Vent.wav')
+                        sound.set_volume(volume)
+                        sound.play()
                         player1.rect.top = vents.sprites()[0].rect.bottom
                         player1.rect.right = vents.sprites()[0].rect.right
 
@@ -177,13 +193,22 @@ while True:
 
                 for w in breaking_walls:
                     if collide_rect(player2, w):
+                        sound = pygame.mixer.Sound('Sounds/WallBreak.wav')
+                        sound.set_volume(volume)
+                        sound.play()
                         w.kill()
 
                 if len(vents) > 1:
                     if collide_rect(player1, vents.sprites()[0]):
+                        sound = pygame.mixer.Sound('Sounds/Vent.wav')
+                        sound.set_volume(volume)
+                        sound.play()
                         player1.rect.bottom = vents.sprites()[1].rect.top
                         player1.rect.right = vents.sprites()[1].rect.bottom
                     elif collide_rect(player1, vents.sprites()[1]):
+                        sound = pygame.mixer.Sound('Sounds/Vent.wav')
+                        sound.set_volume(volume)
+                        sound.play()
                         player1.rect.top = vents.sprites()[0].rect.bottom
                         player1.rect.right = vents.sprites()[0].rect.right
 
@@ -195,10 +220,16 @@ while True:
 
         if groupcollide(players, keys_group, False, True):
             for s in locked_walls:
+                sound = pygame.mixer.Sound('Sounds/Key.wav')
+                sound.set_volume(volume)
+                sound.play()
                 s.kill()
         # Portals
         portal_collision = groupcollide(players, portals, False, False)
         if portal_collision and not portal_activated:
+            sound = pygame.mixer.Sound('Sounds/TP.wav')
+            sound.set_volume(volume)
+            sound.play()
             player1_rect = player1.rect.topleft
             player1.rect.topleft = player2.rect.topleft
             player2.rect.topleft = player1_rect
@@ -220,9 +251,12 @@ while True:
         if check_level_complete():
             if current_level == 4:
                 current_level = 0
+            sound = pygame.mixer.Sound('Sounds/LevelWin.wav')
+            sound.set_volume(volume)
+            sound.play()
             music.stop()
             music = pygame.mixer.Sound(level_handler.level_music_path(current_level+1))
-            music.set_volume(0.1)
+            music.set_volume(volume)
             music.play(loops=-1)
             current_level, level_data, player1, player2, background_surface, background_rect = go_next_level(current_level)
 
@@ -239,7 +273,7 @@ while True:
             current_level += 1
             music.stop()
             music = pygame.mixer.Sound(level_handler.level_music_path(current_level))
-            music.set_volume(0.1)
+            music.set_volume(volume)
             music.play(loops=-1)
             background_surface = pygame.image.load(level_handler.level_background_path(current_level))
             background_rect = background_surface.get_rect(topleft=(0, 0))
