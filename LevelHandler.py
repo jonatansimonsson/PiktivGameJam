@@ -1,3 +1,5 @@
+import random
+
 import pygame
 import Utils
 from Sprite import Sprite
@@ -10,6 +12,8 @@ gray = (128, 128, 128)
 yellow = (255, 255, 0)
 maroon = (128, 0, 0)
 
+wall_list = ["Sprites/wall1", "Sprites/wall2", "Sprites/wall3"]
+
 
 def load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents, keys, locked_walls, breaking_walls, portals):
     flower_start, bee_start = [0, 0], [0, 0]
@@ -18,7 +22,7 @@ def load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents
             if char == '0':
                 pass
             elif char == '1':
-                w = Sprite(black, TILE_SIZE, TILE_SIZE, None)
+                w = Sprite(black, TILE_SIZE, TILE_SIZE, random.choice(wall_list))
                 w.rect.x = TILE_SIZE * col
                 w.rect.y = TILE_SIZE * row
                 w.add(walls, all_sprites)
@@ -41,7 +45,7 @@ def load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal, vents
                 k.rect.x, k.rect.y = TILE_SIZE * col, TILE_SIZE * row
                 k.add(all_sprites, keys)
             elif char == '6':
-                w = Sprite(yellow, TILE_SIZE, TILE_SIZE, None)
+                w = Sprite(yellow, TILE_SIZE, TILE_SIZE, "Sprites/bars.png")
                 w.rect.x, w.rect.y = TILE_SIZE * col, TILE_SIZE * row
                 w.add(all_sprites, locked_walls, walls)
             elif char == '7':
