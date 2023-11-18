@@ -65,7 +65,7 @@ while True:
 
     # Save tile map to a text file
     if pygame.key.get_pressed()[pygame.K_s]:  # Press 's' key to save
-        with open("Level4", "w") as file:
+        with open("LevelX", "w") as file:
             for row in tile_map:
                 file.write("".join(map(str, row)) + "\n")
-        print("Tile map saved to Level4")
+        print("Tile map saved to LevelX")
