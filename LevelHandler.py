@@ -77,6 +77,9 @@ class LevelHandler:
     def level_background_path(self, level):
         return Utils.background_paths[level]
 
+    def level_music_path(self, level):
+        return Utils.music_paths[level]
+
     @staticmethod
     def load_map(path):
         with open(path, 'r') as file:
