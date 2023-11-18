@@ -1,5 +1,5 @@
 import pygame
-
+import Utils
 from Sprite import Sprite
 
 TILE_SIZE = 24
@@ -45,6 +45,9 @@ class LevelHandler:
         self.levels.append(level1_path)
         level2_path = "Levels/Level2"
         self.levels.append(level2_path)
+
+    def level_background_path(self, level):
+        return Utils.background_paths[level]
 
     @staticmethod
     def load_map(path):
