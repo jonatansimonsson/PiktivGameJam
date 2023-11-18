@@ -2,7 +2,7 @@ import pygame
 
 from Sprite import Sprite
 
-TILE_SIZE = 20
+TILE_SIZE = 24
 black = (0, 0, 0)
 red_goal = (255, 153, 153)
 blue_goal = (153, 204, 255)

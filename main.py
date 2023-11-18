@@ -11,10 +11,10 @@ from Player import Player
 pygame.init()
 
 # Set up display
-width, height = 800, 600
+width, height = 960, 720
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Moving Cubes")
-font = pygame.font.SysFont("Comic Sans",100)
+font = pygame.font.SysFont("Comic Sans", 100)
 
 
 # Set up colors
@@ -22,9 +22,10 @@ white = (255, 255, 255)
 red = (255, 0, 0)
 blue = (0, 0, 255)
 black = (0, 0, 0)
+text_color = (255, 0, 255)
 
-tile_size = 20
-cube_speed = 5
+tile_size = 24
+cube_speed = 6
 
 all_sprites = pygame.sprite.Group()
 walls = pygame.sprite.Group()
@@ -38,8 +39,8 @@ level_data = level_handler.load_map(level_handler.levels[0])
 bee_spawn, flower_spawn = load_collisions(level_data, walls, all_sprites, bee_goal, flower_goal)
 
 # Create players
-player1 = Player(red, 20, 20, bee_spawn)
-player2 = Player(blue, 20, 20, flower_spawn)
+player1 = Player(red, tile_size, tile_size, bee_spawn)
+player2 = Player(blue, tile_size, tile_size, flower_spawn)
 player1.add(all_sprites)
 player2.add(all_sprites)
 
@@ -125,8 +126,8 @@ while True:
     all_sprites.update()
     all_sprites.draw(screen)
 
-    if not (player1.rect.collidelist(bee_goal.sprites()) and player2.rect.collidelist(flower_goal.sprites())):
-        text_surface = font.render('Level Complete', False, (0, 0, 0))
+    if not player1.rect.collidelist(bee_goal.sprites()) and not player2.rect.collidelist(flower_goal.sprites()):
+        text_surface = font.render('Level Complete', False, text_color)
         screen.blit(text_surface, screen.get_rect().center)
     # Update the display
     pygame.display.flip()
